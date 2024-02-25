@@ -18,16 +18,9 @@ function UploadForm() {
     e.preventDefault();
   };
   function handleUpload(file) {
-    console.log(file);
     if (file) {
       setFileName(file.name);
-      let fileType = file.name.split(".").slice(-1);
-      const formData = new FormData();
-      formData.set("file", file);
-      formData.set("fileName", file.name);
-      formData.set("size", file.size);
-      formData.set("type", fileType);
-      uploadFileHelper(formData, setProgress);
+      uploadFileHelper(file, setProgress);
     } else {
       console.log("File selection not complete !");
     }
