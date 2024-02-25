@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
-
-const Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 const fileSchema = new Schema({
-    fileId: {
+    fileName: {
         type: String,
         required: true,
         unique: true
@@ -17,10 +16,11 @@ const fileSchema = new Schema({
         type: Number,
         required: true
     },
-    extension: {
+    type: {
         type: String,
         required: true
     }
 });
 
-export default mongoose.model('File', fileSchema);
+var File = mongoose.model('File', fileSchema);
+module.exports = File;
