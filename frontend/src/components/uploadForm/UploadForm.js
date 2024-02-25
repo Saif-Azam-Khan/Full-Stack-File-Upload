@@ -2,50 +2,71 @@ import { useState, useRef } from "react";
 import "./UploadForm.css";
 import Button from "react-bootstrap/Button";
 import { uploadFileHelper } from "../../utils/uploadFileHelper";
+import { Form } from "react-bootstrap";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 function UploadForm() {
-  const [fileUploadError, setFileUploadError]=useState("")
+  const [fileName, setFileName] = useState("");
+  const [progress, setProgress] = useState(0);
   const inputRef = useRef();
 
   const handleDrop = (e) => {
     e.preventDefault();
-    uploadFileHelper(e.dataTransfer.files);
+    handleUpload(e.dataTransfer.files[0]);
   };
   const handleDragOver = (e) => {
     e.preventDefault();
   };
-
-  // const handleUpload = (files) => {
-  //   if(files.length>1){
-  //     setFileUploadError("Multiple files are not accepted !")
-  //   }
-  //   else if(files.length===1){
-  //     uploadFileHelper(files);
-  //   }
-  //   else{
-  //     setFileUploadError("File selection canceled !")
-  //   }
-  //   console.log(fileUploadError);
-  // };
+  function handleUpload(file) {
+    console.log(file);
+    if (file) {
+      setFileName(file.name);
+      let fileType = file.name.split(".").slice(-1);
+      const formData = new FormData();
+      formData.set("file", file);
+      formData.set("fileName", file.name);
+      formData.set("size", file.size);
+      formData.set("type", fileType);
+      uploadFileHelper(formData, setProgress);
+    } else {
+      console.log("File selection not complete !");
+    }
+  }
 
   return (
-    <div
-      className="form_container"
-      onDrop={handleDrop}
-      onDragOver={handleDragOver}
-    >
-      <h2>
-        Drag and drop file to upload,<br></br> or click the button
-      </h2>
-      <input
-        hidden
-        type="file"
-        onInput={(e) =>uploadFileHelper(e.target.files)}
-        ref={inputRef}
-      ></input>
-      <Button variant="info" onClick={() => inputRef.current.click()}>
-        Click to upload
-      </Button>
+    <div>
+      <Form
+        className="form_container"
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
+        {fileName ? (
+          <h2>{fileName}</h2>
+        ) : (
+          <h2>
+            Drag and drop file to upload,<br></br> or click the button
+          </h2>
+        )}
+        <input
+          hidden
+          type="file"
+          ref={inputRef}
+          onInput={(e) => handleUpload(e.target.files[0])}
+        />
+        {fileName && (
+          <div className="progress">
+            <ProgressBar
+              now={100}
+              style={{ width: `${progress}%` }}
+              animated
+              label={`${progress}%`}
+            />
+          </div>
+        )}
+        <Button variant="info" onClick={() => inputRef.current.click()}>
+          Upload
+        </Button>
+      </Form>
     </div>
   );
 }

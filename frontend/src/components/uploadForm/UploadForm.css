@@ -5,4 +5,9 @@
     padding: 0.7rem;
     display: grid;
     place-items: center;
+    border-radius: 16px;
+}
+.progress{
+    width: 100%;
+    margin-bottom: 0.5rem;
 }
