@@ -1,11 +1,11 @@
-const express = require('express');
-const upload = require('../utils/multer');
-const fileRouter =express.Router()
-const fileController=require('../controller/fileController')
+const express = require("express");
+const fileRouter = express.Router();
+const fileController = require("../controller/fileController");
 
+// fileRouter.post("/file/createRefToDb", fileController.fileRefController);
+fileRouter.post("/file/toCloud", fileController.uploadController);
+fileRouter.get("/file/getAll", fileController.getAllController);
+fileRouter.delete("/file/delete/:id", fileController.deleteFileById);
 
-fileRouter.post('/file/upload',upload.single('file'), fileController.uploadController)
-fileRouter.get('/file/getAll',fileController.getAllController)
+module.exports = fileRouter;
 
-
-module.exports = fileRouter ;

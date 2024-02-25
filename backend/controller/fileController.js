@@ -1,27 +1,21 @@
-const mongoose = require("mongoose");
-const File = require("../database/itemModel");
+const uploadToGCP = require("../modal/uploadToGCP");
+const { getListFiles, deleteFile } = require("../modal/readFiles");
+
 exports.getAllController = async (req, res) => {
-  res.status(200).json({ message: "BE connected" });
+  getListFiles(req, res);
 };
 
-exports.uploadController = (req, res) => {
-  const { fileName, size, type } = req.body;
-  const newFile = new File({
-    fileName: fileName,
-    size: size,
-    type: type,
-  });
-
-  newFile
-    .save()
-    .then(function (file) {
-      res.status(201).json(file);
-    })
-    .catch(function (err) {
-      console.error(err);
-      if (err.code === 11000) {
-        res.status(501).send("Duplicate key error. Document already exists!");
-      }
-      res.status(500).send("Error creating file");
+exports.uploadController = async (req, res) => {
+  try {
+    uploadToGCP(req, res);
+  } catch (err) {
+    res.status(500).send({
+      message: `Could not upload the file`,
     });
+  }
+};
+
+exports.deleteFileById = async (req, res) => {
+  console.log(req.params.id);
+  deleteFile(req, res);
 };
