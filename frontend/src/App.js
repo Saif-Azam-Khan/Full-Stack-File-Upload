@@ -2,10 +2,9 @@ import "./App.css";
 import UploadForm from "./components/uploadForm/UploadForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-function App() {
+import FileView from "./components/fileView/FileView";
 
-  
+function App() {
   return (
     <div className="App">
       <Container>
@@ -14,6 +13,11 @@ function App() {
         </Row>
         <Row>
           <UploadForm />
+        </Row>
+        <br></br>
+        <br></br>
+        <Row>
+          <FileView />
         </Row>
       </Container>
     </div>

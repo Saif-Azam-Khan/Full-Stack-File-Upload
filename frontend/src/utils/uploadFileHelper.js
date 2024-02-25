@@ -14,7 +14,7 @@ export const uploadFileHelper = async (file, uploadProgress) => {
   };
 
   try {
-    const response = await axios.post("http://localhost:8080/api/file/upload", formData, {
+    await axios.post("http://localhost:8080/api/file/toCloud", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
