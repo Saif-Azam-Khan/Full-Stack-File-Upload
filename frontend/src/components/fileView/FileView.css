@@ -1,0 +1,18 @@
+.cover {
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.card {
+  height: 12rem !important;
+  color: aliceblue;
+  background-color: rgba(19, 69, 144, 0.2274509804);
+  margin-bottom: 5rem;
+}
+.title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: -webkit-box;
+  overflow: hidden;
+}

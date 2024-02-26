@@ -6,6 +6,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import './FileView.css'
 function FileView() {
   const [fileData, setFileData] = useState([]);
   useEffect(() => {
@@ -42,19 +43,19 @@ function FileView() {
     deleteEntryByName(name);
   };
   return (
-    <Container>
-      <Row>
+    <Container className="cover">
+      <Row >
         {fileData.map((file, index) => (
           <Col key={index}>
-            <Card style={{ width: "15rem" }}>
+            <Card style={{ width: "15rem" }} className="fileCard">
               <Card.Body>
-                <Card.Title>{file.fileName}</Card.Title>
+                <h5 className="title">{file.fileName}</h5>
                 <Card.Text>Type of the file: {file.type}</Card.Text>
-                <Card.Text>Size of the file:{file.size}</Card.Text>
-                <ButtonGroup aria-label="Basic example">
-                  <Button variant="success" href={file.url}>Download</Button>
+                <Card.Text>Size of the file: {Math.round(file.size/1024)}KB</Card.Text>
+                <ButtonGroup>
+                  <Button href={file.url} style={{backgroundColor:'#00bceb', border:'none'}}>Download</Button>
                   <Button
-                    variant="danger"
+                    style={{backgroundColor:'#a115b9',border:'none'}}
                     onClick={() => {
                       handleDelete(file.fileName);
                     }}

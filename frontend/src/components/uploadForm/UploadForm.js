@@ -30,7 +30,7 @@ function UploadForm() {
   }
 
   return (
-    <div>
+    <div className="content">
       <Form
         className="form_container"
         onDrop={handleDrop}
@@ -59,7 +59,7 @@ function UploadForm() {
             />
           </div>
         )}
-        <Button variant="info" onClick={() => inputRef.current.click()}>
+        <Button variant="info" onClick={() => inputRef.current.click()} size="lg">
           Upload
         </Button>
       </Form>
