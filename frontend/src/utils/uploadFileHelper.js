@@ -17,5 +17,7 @@ export const uploadFileHelper = async (file, uploadProgress) => {
     });
   } catch (error) {
     console.log(error.config);
+  }finally{
+    window.location.reload();
   }
 };

@@ -9,10 +9,6 @@ function UploadForm() {
   const [fileName, setFileName] = useState("");
   const [progress, setProgress] = useState(0);
   const inputRef = useRef();
-  if (progress === 100) {
-    window.location.reload();
-  }
-
   const handleDrop = (e) => {
     e.preventDefault();
     handleUpload(e.dataTransfer.files[0]);
