@@ -32,12 +32,10 @@ function FileView() {
       try {
         const response = await axios.delete(
           `http://localhost:8080/api/file/delete/${name}`
-        );
+        ).then(window.location.reload())
         console.log("Entry deleted:", response.data);
       } catch (error) {
         console.error("Error deleting entry:", error);
-      }finally{
-        window.location.reload();
       }
     };
     deleteEntryByName(name);
