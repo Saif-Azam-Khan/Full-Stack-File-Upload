@@ -1,6 +1,11 @@
 import axios from "axios";
 
 export const uploadFileHelper = async (file, uploadProgress) => {
+  
+  if (file.size>5*1024*1024){
+    alert('Warning: File should be less than 5MB in size')
+    window.location.reload(); 
+  } 
   const formData = new FormData();
   formData.set("file", file);
   const onUploadProgress = (event) => {
