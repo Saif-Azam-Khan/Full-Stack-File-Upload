@@ -18,6 +18,12 @@ const uploadToGCP = async (req, res) => {
   try {
     await processFile(req, res);
 
+    if (req.file.size > 5 * 1024 * 1024) {
+      return {
+        status: 401,
+        message: "Please upload a file within 5MB of size",
+      };
+    }
     if (!req.file) {
       return { status: 400, message: "Please upload a file!" };
     }
@@ -36,7 +42,7 @@ const uploadToGCP = async (req, res) => {
         await bucket.file(req.file.originalname).makePublic();
       } catch {
         return res.status(500).send({
-          message: `Uploaded the file successfully`,
+          message: `File not uploaded successfully`,
         });
       }
       res.status(200).send({
