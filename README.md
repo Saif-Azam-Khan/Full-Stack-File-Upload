@@ -1,7 +1,7 @@
 Setting up the APplication 
 
 1. Put these in .env.
-DB_URL=mongodb+srv://saifazamkhan77:ceLHN6YhhZsyviID@cluster0.fr8tjao.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+DB_URL="""
 PORT=8080
 PROJECT_ID=mern-stack-file-upload
 
