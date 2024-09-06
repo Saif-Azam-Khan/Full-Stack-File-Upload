@@ -3,7 +3,7 @@ const { getListFiles, deleteFile } = require("../modal/readFiles");
 const readFileDBox =require("../modal/readFilesDBox")
 
 exports.getAllController = async (req, res) => {
-  readFileDBox(req, res);
+  readFileDBox(res,"");
 };
 
 exports.uploadController = async (req, res) => {

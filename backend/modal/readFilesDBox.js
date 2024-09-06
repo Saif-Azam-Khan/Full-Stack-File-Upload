@@ -1,22 +1,24 @@
-const https = require("https");
-const data = "{\"limit\": 1000}";
+const { Dropbox } = require('dropbox'); // Import the Dropbox SDK
+const fetch = require('isomorphic-fetch');
 
-const readFileDBox=async (req,res)=>{
-    const request = https.request('https://api.dropboxapi.com/2/file_requests/count', {
-        method: 'POST',
-        headers: { 
-            'Authorization': `Bearer ${process.env.DB_ACCESS_KEY}`,
-        },
-        
-    }, (response) => {
-        response.on('data', function(d) {
-            const jsonString = d.toString();
-            const jsonData = JSON.parse(jsonString);
-            console.log(jsonData);
-        });
-    })
-    
-    request.end();
+const dbx = new Dropbox({
+    accessToken: process.env.DB_ACCESS_KEY,
+    fetch
+});
+
+
+const readFileDBox=async (res,path)=>{
+    try {
+        // Request a list of files from Dropbox
+        const files = await dbx.filesListFolder({path});
+        // Return the list of file entries
+        console.log(files.result.entries) 
+        return res.status(200).send("Done");
+    } catch (error) {
+        // Log any errors that occur
+        console.error('Error:', error);
+        return res.status(400).send(error)
+    }
 }
 
 
