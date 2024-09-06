@@ -1,6 +1,6 @@
-const uploadToGCP = require("../modal/uploadToGCP");
-const { getListFiles, deleteFile } = require("../modal/readFiles");
+// const { getListFiles, deleteFile } = require("../modal/readFiles");
 const readFileDBox =require("../modal/readFilesDBox")
+const uploadFileToDBox=require("../modal/uploadFileToDBox")
 
 exports.getAllController = async (req, res) => {
   readFileDBox(res,"");
@@ -8,7 +8,7 @@ exports.getAllController = async (req, res) => {
 
 exports.uploadController = async (req, res) => {
   try {
-    uploadToGCP(req, res);
+    await uploadFileToDBox(req, res);
   } catch (err) {
     res.status(500).send({
       message: `Could not upload the file`,
@@ -16,7 +16,7 @@ exports.uploadController = async (req, res) => {
   }
 };
 
-exports.deleteFileById = async (req, res) => {
-  console.log(req.params.id);
-  deleteFile(req, res);
-};
+// exports.deleteFileById = async (req, res) => {
+//   console.log(req.params.id);
+//   deleteFile(req, res);
+// };
