@@ -10,35 +10,35 @@ import './FileView.css'
 function FileView() {
   const [fileData, setFileData] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      let headersList = {
-        Accept: "*/*",
-      };
+    // const fetchData = async () => {
+    //   let headersList = {
+    //     Accept: "*/*",
+    //   };
 
-      let reqOptions = {
-        url: "http://localhost:8080/api/file/getAll",
-        method: "GET",
-        headers: headersList,
-      };
+    //   let reqOptions = {
+    //     url: "http://localhost:8080/api/file/getAll",
+    //     method: "GET",
+    //     headers: headersList,
+    //   };
 
-      let response = await axios.request(reqOptions);
-      setFileData(response.data);
-    };
-    fetchData();
+    //   let response = await axios.request(reqOptions);
+    //   setFileData(response.data);
+    // };
+    // fetchData();
   }, []);
 
   const handleDelete = (name) => {
-    const deleteEntryByName = async (name) => {
-      try {
-        const response = await axios.delete(
-          `http://localhost:8080/api/file/delete/${name}`
-        ).then(window.location.reload())
-        console.log("Entry deleted:", response.data);
-      } catch (error) {
-        console.error("Error deleting entry:", error);
-      }
-    };
-    deleteEntryByName(name);
+    // const deleteEntryByName = async (name) => {
+    //   try {
+    //     const response = await axios.delete(
+    //       `http://localhost:8080/api/file/delete/${name}`
+    //     ).then(window.location.reload())
+    //     console.log("Entry deleted:", response.data);
+    //   } catch (error) {
+    //     console.error("Error deleting entry:", error);
+    //   }
+    // };
+    // deleteEntryByName(name);
   };
   return (
     <Container className="cover">
