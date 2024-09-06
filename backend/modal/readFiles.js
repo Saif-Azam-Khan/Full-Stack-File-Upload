@@ -1,16 +1,4 @@
-const path = require("path");
-const { Storage } = require("@google-cloud/storage");
-const PROJECT_ID = process.env.PROJECT_ID;
-const storage = new Storage({
-  keyFilename: path.join(
-    __dirname,
-    "../mern-stack-file-upload-5e6c803db8e7.json"
-  ),
-  projectId: PROJECT_ID,
-});
-
-const bucketName = "mern-bucket";
-const bucket = storage.bucket(bucketName);
+const bucket = require("../config/gcpConfig");
 
 const getListFiles = async (req, res) => {
   try {
@@ -36,7 +24,7 @@ const getListFiles = async (req, res) => {
   }
 };
 
-const deleteFile =async (req, res) => {
+const deleteFile = async (req, res) => {
   const fileName = req.params.id;
   try {
     const file = bucket.file(fileName);
@@ -48,7 +36,7 @@ const deleteFile =async (req, res) => {
       console.log(`File ${fileName} does not exist.`);
     }
   } catch (error) {
-    console.error('Error deleting file:', error);
+    console.error("Error deleting file:", error);
   }
 };
 

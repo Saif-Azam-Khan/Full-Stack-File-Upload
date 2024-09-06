@@ -1,10 +1,16 @@
 const express = require("express");
+const multer = require('multer');
+// const processFile = require("../middleware/multer");
 const fileRouter = express.Router();
-const fileController = require("../controller/fileController");
+const upload = multer({ dest: 'uploads/' });
+const { uploadController, getAllController, deleteFileById } = require("../controller/fileController");
 
-fileRouter.post("/file/toCloud", fileController.uploadController);
-fileRouter.get("/file/getAll", fileController.getAllController);
-fileRouter.delete("/file/delete/:id", fileController.deleteFileById);
+fileRouter.post("/file/toCloud", upload.single('file'), uploadController);
+fileRouter.get("/file/getAll", getAllController);
+fileRouter.delete("/file/delete/:id", deleteFileById);
+
+// , fileController.uploadController
+
 
 module.exports = fileRouter;
 

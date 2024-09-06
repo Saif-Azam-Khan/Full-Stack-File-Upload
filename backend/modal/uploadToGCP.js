@@ -1,55 +1,42 @@
-const path = require("path");
-const { Storage } = require("@google-cloud/storage");
-const processFile = require("../middleware/multer");
-const PROJECT_ID = process.env.PROJECT_ID;
-const storage = new Storage({
-  keyFilename: path.join(
-    __dirname,
-    "../mern-stack-file-upload-5e6c803db8e7.json"
-  ),
-  projectId: PROJECT_ID,
-});
 
-const bucketName = "mern-bucket";
-const bucket = storage.bucket(bucketName);
+const fs = require('fs');
+const { Dropbox } = require('dropbox');
 
-const uploadToGCP = async (req, res) => {
-  await storage.bucket(bucketName).makePublic();
-  try {
-    await processFile(req, res);
 
-    if (!req.file) {
-      return { status: 400, message: "Please upload a file!" };
+// Initialize Express app
+
+
+// Set up multer for file handling
+ // Uploads folder for temp storage
+
+// Initialize Dropbox client
+const dbx = new Dropbox({ accessToken: process.env.DB_ACCESS_KEY });
+
+const uploadToGCP = (req, res) => {
+  // Access the uploaded file
+  const file = req.file;
+  
+  if (!file) {
+    return res.status(400).send('No file uploaded.');
+  }
+
+  // Read the file from the temporary storage
+  fs.readFile(file.path, (err, data) => {
+    if (err) {
+      return res.status(500).send('Error reading the file.');
     }
 
-    const blob = bucket.file(req.file.originalname);
-    const blobStream = blob.createWriteStream({
-      resumable: false,
-    });
-
-    blobStream.on("error", (err) => {
-      res.status(500).send({ message: err.message });
-    });
-
-    blobStream.on("finish", async (data) => {
-      try {
-        await bucket.file(req.file.originalname).makePublic();
-      } catch {
-        return res.status(500).send({
-          message: `File not uploaded successfully`,
-        });
-      }
-      res.status(200).send({
-        message: "Uploaded the file successfully",
+    // Upload file to Dropbox
+    dbx.filesUpload({ path: `/${file.originalname}`, contents: data })
+      .then(response => {
+        console.log('File uploaded successfully:', response);
+        res.send('File uploaded to Dropbox successfully.');
+      })
+      .catch(error => {
+        console.error('Error uploading to Dropbox:', error);
+        res.status(500).send('Error uploading to Dropbox.');
       });
-    });
-
-    blobStream.end(req.file.buffer);
-  } catch (err) {
-    res.status(500).send({
-      message: `Could not upload the file`,
-    });
-  }
+  });
 };
 
-module.exports = uploadToGCP;
+module.exports=uploadToGCP

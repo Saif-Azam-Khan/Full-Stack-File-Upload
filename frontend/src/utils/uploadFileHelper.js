@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const uploadFileHelper = async (file, uploadProgress) => {
-  
+  console.log(file);
   if (file.size>5*1024*1024){
     alert('Warning: File should be less than 5MB in size')
     window.location.reload(); 
@@ -15,9 +15,7 @@ export const uploadFileHelper = async (file, uploadProgress) => {
 
   try {
     await axios.post("http://localhost:8080/api/file/toCloud", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+ 
       onUploadProgress,
     });
   } catch (error) {
